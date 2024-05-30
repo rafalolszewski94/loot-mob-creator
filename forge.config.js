@@ -9,12 +9,7 @@ module.exports = {
   makers: [
     {
       name: "@electron-forge/maker-squirrel",
-      config: {
-        config: {
-          authors: "Alice and Bob",
-          description: "An example Electron app",
-        },
-      },
+      config: {},
     },
     {
       name: "@electron-forge/maker-zip",
@@ -22,6 +17,10 @@ module.exports = {
     },
     {
       name: "@electron-forge/maker-deb",
+      config: {},
+    },
+    {
+      name: "@electron-forge/maker-rpm",
       config: {},
     },
   ],
@@ -50,6 +49,10 @@ module.exports = {
         ],
       },
     },
+    {
+      name: "@electron-forge/plugin-auto-unpack-natives",
+      config: {},
+    },
     // Fuses are used to enable/disable various Electron functionality
     // at package time, before code signing the application
     new FusesPlugin({
@@ -61,5 +64,17 @@ module.exports = {
       [FuseV1Options.EnableEmbeddedAsarIntegrityValidation]: true,
       [FuseV1Options.OnlyLoadAppFromAsar]: true,
     }),
+  ],
+  publishers: [
+    {
+      name: "@electron-forge/publisher-github",
+      config: {
+        repository: {
+          owner: "delimitertech",
+          name: "electron-starter",
+        },
+        prerelease: true,
+      },
+    },
   ],
 };
