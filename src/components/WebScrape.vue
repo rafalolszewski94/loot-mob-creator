@@ -41,7 +41,7 @@ const scrape = async () => {
     }[] = [];
 
     const tables = doc.querySelectorAll(".loot_list");
-    const tablesToProcess = Array.from(tables).slice(0, 2);
+    const tablesToProcess = Array.from(tables).slice(0, 1);
     if (tablesToProcess) {
       tablesToProcess.forEach((table) => {
         const rows = table.querySelectorAll("tbody>tr");
