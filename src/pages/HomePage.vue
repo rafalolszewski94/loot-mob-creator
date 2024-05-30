@@ -335,7 +335,7 @@
           <main class="flex-auto">
             <article class="flex h-full flex-col pb-10 pt-16">
               <div
-                class="flex-auto prose prose-invert [html_:where(&amp;>*)]:mx-auto [html_:where(&amp;>*)]:max-w-2xl [html_:where(&amp;>*)]:lg:mx-[calc(50%-min(50%,theme(maxWidth.lg)))] [html_:where(&amp;>*)]:lg:max-w-3xl"
+                class="flex-auto prose prose-invert !max-w-5xl [html_:where(&amp;>*)]:mx-auto [html_:where(&amp;>*)]:max-w-2xl [html_:where(&amp;>*)]:lg:mx-[calc(50%-min(50%,theme(maxWidth.lg)))] [html_:where(&amp;>*)]:lg:max-w-3xl"
               >
                 <div
                   class="absolute inset-0 -z-10 mx-0 max-w-none overflow-hidden"
