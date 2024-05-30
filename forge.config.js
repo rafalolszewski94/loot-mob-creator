@@ -70,8 +70,8 @@ module.exports = {
       name: "@electron-forge/publisher-github",
       config: {
         repository: {
-          owner: "delimitertech",
-          name: "electron-starter",
+          owner: "rafalolszewski94",
+          name: "loot-mob-creator",
         },
         prerelease: true,
       },
