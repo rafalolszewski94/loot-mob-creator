@@ -43,6 +43,7 @@
     "electron-squirrel-startup": "^1.0.1",
     "jsdom": "^24.1.0",
     "vue": "^3.4.27",
-    "vue-router": "^4.3.2"
+    "vue-router": "^4.3.2",
+    "vue3-perfect-scrollbar": "^2.0.0"
   }
 }

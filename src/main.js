@@ -12,9 +12,10 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 800,
+    maxWidth: 800,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
-      devTools: process.env.NODE_ENV === "production",
+      // devTools: import.meta.env.NODE_ENV === "production",
     },
     frame: false,
   });
@@ -30,8 +31,18 @@ const createWindow = () => {
     );
   }
 
+  ipcMain.handle("CLOSE-APP", (event) => {
+    mainWindow.close();
+  });
+  ipcMain.handle("MINIMIZE-APP", (event) => {
+    mainWindow.minimize();
+  });
+  ipcMain.handle("MAXIMIZE-APP", (event) => {
+    mainWindow.maximize();
+  });
+
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished

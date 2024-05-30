@@ -1,3 +1,23 @@
+<script setup lang="ts">
+import { RouterLink } from "vue-router";
+import WebScrape from "../components/WebScrape.vue";
+import {
+  MinusIcon,
+  ViewfinderCircleIcon,
+  XMarkIcon,
+} from "@heroicons/vue/24/outline";
+
+const minimizeApp = () => {
+  window.api.minimizeApp();
+};
+const maximizeApp = () => {
+  window.api.maximizeApp();
+};
+const closeApp = () => {
+  window.api.closeApp();
+};
+</script>
+
 <template>
   <div class="w-full">
     <div class="w-full">
@@ -17,13 +37,13 @@
               </a>
             </div>
             <div
-              class="window-draggable fixed inset-x-0 top-0 z-50 flex h-14 items-center justify-between gap-12 px-4 transition sm:px-6 lg:left-72 lg:z-30 lg:px-8 xl:left-80 backdrop-blur bg-zinc-900/[var(--bg-opacity-dark)]"
+              class="window-draggable fixed inset-x-0 top-0 z-50 flex h-14 items-center justify-between gap-12 pr-4 pl-4 transition sm:pl-6 lg:left-72 lg:z-30 lg:pl-8 xl:left-80 backdrop-blur bg-zinc-900/[var(--bg-opacity-dark)]"
               style="--bg-opacity-light: 0.5; --bg-opacity-dark: 0.2"
             >
               <div
                 class="absolute inset-x-0 top-full h-px transition bg-white/10"
               ></div>
-              <div class="hidden lg:block lg:max-w-md lg:flex-auto">
+              <div class="hidden lg:flex lg:max-w-md lg:flex-auto">
                 <div class="relative">
                   <input
                     placeholder="Find something..."
@@ -65,30 +85,31 @@
                   >Loot Creator</a
                 >
               </div>
+              <div
+                class="ml-auto flex items-center gap-x-2 relative window-non-draggable"
+              >
+                <button
+                  class="text-zinc-300 rounded-lg bg-zinc-500/10 px-2 py-1.5 transition hover:bg-zinc-400/20 hover:text-white"
+                  @click="minimizeApp"
+                >
+                  <MinusIcon class="size-5" />
+                </button>
+                <button
+                  class="hidden text-zinc-300 rounded-lg bg-zinc-500/10 px-2 py-1.5 transition hover:bg-zinc-400/20 hover:text-white"
+                  @click="maximizeApp"
+                >
+                  <ViewfinderCircleIcon class="size-5" />
+                </button>
+                <button
+                  class="text-zinc-300 rounded-lg bg-zinc-500/10 px-2 py-1.5 transition hover:bg-zinc-400/20 hover:text-white"
+                  @click="closeApp"
+                >
+                  <XMarkIcon class="size-5" />
+                </button>
+              </div>
             </div>
             <nav class="hidden lg:mt-10 lg:block">
               <ul role="list">
-                <li class="md:hidden">
-                  <a
-                    class="block py-1 text-sm transition text-zinc-400 hover:text-white"
-                    href="/"
-                    >API</a
-                  >
-                </li>
-                <li class="md:hidden">
-                  <a
-                    class="block py-1 text-sm transition text-zinc-400 hover:text-white"
-                    href="#"
-                    >Documentation</a
-                  >
-                </li>
-                <li class="md:hidden">
-                  <a
-                    class="block py-1 text-sm transition text-zinc-400 hover:text-white"
-                    href="#"
-                    >Support</a
-                  >
-                </li>
                 <li class="relative mt-6 md:mt-0">
                   <h2 class="text-xs font-semibold text-white">Tools</h2>
                   <div class="relative mt-3 pl-2">
@@ -112,13 +133,13 @@
                     ></div>
                     <ul role="list" class="border-l border-transparent">
                       <li class="relative">
-                        <a
+                        <RouterLink
                           aria-current="page"
                           class="flex justify-between gap-2 py-1 pr-3 text-sm transition pl-4 text-white"
-                          href="/"
+                          to="/"
                           ><span class="truncate"
                             >Tibia Wiki Loot Creator</span
-                          ></a
+                          ></RouterLink
                         >
                       </li>
                       <li class="relative">
@@ -257,7 +278,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import WebScrape from "../components/WebScrape.vue";
-</script>
