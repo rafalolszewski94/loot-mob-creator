@@ -16,7 +16,7 @@ const percentageToNumber = (percentage: number) => {
   if (percentage < 0 || percentage > 100) {
     throw new Error("Percentage must be between 0 and 100");
   }
-  const maxNumber = 11500;
+  const maxNumber = 100000;
   return Math.floor((percentage / 100) * maxNumber);
 };
 
