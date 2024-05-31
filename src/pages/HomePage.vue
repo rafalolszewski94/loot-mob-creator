@@ -257,6 +257,7 @@ const closeApp = () => {
               <div class="flex gap-4">
                 <a
                   class="group"
+                  target="_blank"
                   href="https://github.com/rafalolszewski94/loot-mob-creator"
                   ><span class="sr-only">Follow us on GitHub</span
                   ><svg

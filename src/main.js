@@ -1,13 +1,14 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, shell } = require("electron");
 const path = require("node:path");
 const axios = require("axios");
+const { updateElectronApp } = require("update-electron-app");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
-require("update-electron-app")();
+updateElectronApp();
 
 const createWindow = () => {
   // Create the browser window.
@@ -32,6 +33,11 @@ const createWindow = () => {
       path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)
     );
   }
+
+  mainWindow.webContents.setWindowOpenHandler((details) => {
+    shell.openExternal(details.url); // Open URL in user's browser.
+    return { action: "deny" }; // Prevent the app from opening the URL.
+  });
 
   ipcMain.handle("CLOSE-APP", (event) => {
     mainWindow.close();
