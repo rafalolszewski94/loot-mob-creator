@@ -2,7 +2,7 @@
   "name": "loot-mob-creator",
   "productName": "Loot Creator",
   "version": "1.0.5",
-  "description": "My Electron application description",
+  "description": "Loot creator for OTS based on Canary",
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -42,8 +42,13 @@
     "axios": "^1.7.2",
     "electron-squirrel-startup": "^1.0.1",
     "jsdom": "^24.1.0",
+    "update-electron-app": "^3.0.0",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2",
     "vue3-perfect-scrollbar": "^2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rafalolszewski94/loot-mob-creator.git"
   }
 }
