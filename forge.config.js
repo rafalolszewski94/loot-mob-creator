@@ -10,7 +10,10 @@ module.exports = {
   makers: [
     {
       name: "@electron-forge/maker-squirrel",
-      config: {},
+      config: {
+        // The ICO file to use as the icon for the generated Setup.exe
+        setupIcon: "./images/icon.ico",
+      },
     },
     {
       name: "@electron-forge/maker-zip",
