@@ -1,7 +1,7 @@
-const { app, BrowserWindow, ipcMain, shell } = require("electron");
-const path = require("node:path");
-const axios = require("axios");
-const { updateElectronApp } = require("update-electron-app");
+import { app, BrowserWindow, ipcMain, shell } from "electron";
+import path from "path";
+import axios from "axios";
+import { updateElectronApp } from "update-electron-app";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
