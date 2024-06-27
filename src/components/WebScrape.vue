@@ -26,7 +26,7 @@ const items = ref<Item[]>([]);
 
 const load = async () => {
   const items = await window.api.getStore<Item[]>("items");
-  return items;
+  return items || [];
 };
 
 onMounted(async () => {
@@ -34,6 +34,9 @@ onMounted(async () => {
 });
 
 const itemMapFound = (name: string) => {
+  if (!items.value || items.value.length === 0) {
+    return;
+  }
   return items.value.find(
     (item) => item.name.toLowerCase() === name.toLowerCase()
   );
