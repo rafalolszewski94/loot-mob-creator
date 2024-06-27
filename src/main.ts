@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain, shell } from "electron";
 import path from "path";
 import axios from "axios";
 import { updateElectronApp } from "update-electron-app";
+import Store from "./store";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -13,12 +14,10 @@ updateElectronApp();
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
+    width: 1040,
     height: 800,
-    maxWidth: 800,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
-      // devTools: import.meta.env.NODE_ENV === "production",
     },
     frame: false,
   });
@@ -50,7 +49,9 @@ const createWindow = () => {
   });
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+    mainWindow.webContents.openDevTools();
+  }
 };
 
 // This method will be called when Electron has finished
@@ -88,6 +89,26 @@ ipcMain.handle("fetch-html", async (event, mobName) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching the HTML:", error);
+    throw error;
+  }
+});
+
+const store = new Store();
+
+ipcMain.handle("getStore", async (event, storeKey) => {
+  try {
+    return await store.get(storeKey);
+  } catch (error) {
+    console.error("Error getting store:", error);
+    throw error;
+  }
+});
+
+ipcMain.handle("setStore", async (event, storeKey, storeValue) => {
+  try {
+    await store.set(storeKey, storeValue);
+  } catch (error) {
+    console.error("Error setting store:", error);
     throw error;
   }
 });

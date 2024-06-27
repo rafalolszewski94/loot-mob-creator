@@ -29,6 +29,8 @@ declare global {
       maximizeApp: () => void;
       closeApp: () => void;
       fetchHTML: (mobName: string) => Promise<string>;
+      getStore: <T>(key: string) => Promise<T>;
+      setStore: <T>(key: string, value: T) => Promise<void>;
     };
   }
 }

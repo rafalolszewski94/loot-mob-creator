@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useClipboard } from "@vueuse/core";
 import {
   ClipboardDocumentIcon,
   CheckCircleIcon,
 } from "@heroicons/vue/24/outline";
+import AppButton from "./AppButton.vue";
+import type { Item } from "../../types.d.ts";
 
 const { text, copy, copied, isSupported } = useClipboard();
 
@@ -20,6 +22,23 @@ const percentageToNumber = (percentage: number) => {
   return Math.floor((percentage / 100) * maxNumber);
 };
 
+const items = ref<Item[]>([]);
+
+const load = async () => {
+  const items = await window.api.getStore<Item[]>("items");
+  return items;
+};
+
+onMounted(async () => {
+  items.value = await load();
+});
+
+const itemMapFound = (name: string) => {
+  return items.value.find(
+    (item) => item.name.toLowerCase() === name.toLowerCase()
+  );
+};
+
 const scrape = async () => {
   try {
     const html = await window.api.fetchHTML(mobName.value);
@@ -28,7 +47,14 @@ const scrape = async () => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");
 
-    const itemData = {};
+    interface LocalItem {
+      totalMin: number;
+      totalMax: number;
+      totalPercentage: number;
+      totalKills: number;
+      count: number;
+    }
+    const itemData: Record<string, LocalItem> = {};
 
     const items: {
       name: string;
@@ -105,18 +131,26 @@ const scrape = async () => {
         };
       });
 
-      const template = `monster.loot = {${averages.map(
-        (it) =>
-          `{ name = "${it.name}", chance = ${it.chance}, maxCount = ${it.averageMax} }`
-      )}\n}`;
+      const template = `monster.loot = {${averages.map((it) => {
+        if (itemMapFound(it.name)) {
+          return `{ id = ${itemMapFound(it.name)?.id}, chance = ${
+            it.chance
+          }, maxCount = ${it.averageMax} } -- ${it.name}`;
+        }
+        return `{ name = "${it.name}", chance = ${it.chance}, maxCount = ${it.averageMax} }`;
+      })}\n}`;
 
       function prettyFormatLua(luaCode: string) {
         return luaCode
           .replace(/{\s*name/g, "{ name")
+          .replace(/{\s*id/g, "{ id")
           .replace(/},\s*{/g, "},\n    {")
           .replace(/},\s*}/g, "}\n}")
           .replace(/monster\.loot = \{\s*/g, "monster.loot = {\n    ")
-          .replace(/,\s*\n    }/g, "\n}");
+          .replace(/,\s*\n    }/g, "\n}")
+          .replace(/} -- (.*),{/g, function (match, p1) {
+            return `}, -- ${p1}\n    {`;
+          }); // handle comments
       }
 
       if (test.value) {
@@ -149,13 +183,8 @@ const copyCode = () => {
         class="w-full h-10 items-center gap-2 rounded-lg pl-4 pr-4 text-sm ring-1 transition ui-not-focus-visible:outline-none flex bg-white/5 text-zinc-400 ring-inset ring-white/10 hover:ring-white/20 focus:ring-green-300/50 outline-none"
       />
     </div>
-    <button
-      class="inline-flex gap-0.5 justify-center overflow-hidden text-sm font-medium transition rounded-lg py-2 px-4 bg-red-400/10 text-red-400 ring-1 ring-inset ring-red-400/20 hover:bg-red-400/10 hover:text-red-300 hover:ring-red-300"
-      @click="scrape"
-    >
-      Generate loot
-    </button>
-    <div class="relative">
+    <AppButton @click="scrape">Generate loot</AppButton>
+    <div class="relative" v-show="result">
       <button
         class="absolute top-3 right-3 size-9 inline-flex items-center justify-center border border-zinc-600 ring-4 ring-zinc-700/30 rounded-lg hover:bg-zinc-100/5"
         @click="copyCode"
