@@ -1,7 +1,7 @@
 {
   "name": "loot-mob-creator",
   "productName": "Loot Creator",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Loot creator for OTS based on Canary",
   "main": ".vite/build/main.js",
   "scripts": {
