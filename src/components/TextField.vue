@@ -4,6 +4,7 @@ const model = defineModel();
 const props = defineProps<{
   id?: string;
   placeholder?: string;
+  label?: string;
 }>();
 
 // include characters to this id
@@ -16,7 +17,11 @@ const id = props.id || generateId();
 
 <template>
   <div :class="$style['input-wrapper']">
-    <label :for="id"></label>
+    <slot name="label">
+      <label v-if="props.label" :for="id" :class="$style['label']">{{
+        props.label
+      }}</label>
+    </slot>
     <input
       :id="id"
       v-model="model"
@@ -30,6 +35,11 @@ const id = props.id || generateId();
 .input-wrapper {
   @apply w-full block;
 }
+
+.label {
+  @apply block text-sm text-zinc-400;
+}
+
 .input {
   @apply w-full items-center gap-2 rounded-lg pl-4 pr-4 py-2.5 text-sm ring-1 transition flex bg-white/5 text-zinc-400 ring-inset ring-white/10 hover:ring-white/20 focus:ring-green-300/50 outline-none;
 }

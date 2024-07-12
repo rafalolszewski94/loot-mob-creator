@@ -41,7 +41,7 @@ const selectItem = (item: Item) => {
 
 <template>
   <div>
-    <TextField v-model="query" placeholder="Search item..." />
+    <TextField v-model="query" label="Search" placeholder="Search item..." />
 
     <div class="space-y-1 mt-2" v-if="results.length">
       <Item
