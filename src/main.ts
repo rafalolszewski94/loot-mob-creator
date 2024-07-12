@@ -11,11 +11,14 @@ if (require("electron-squirrel-startup")) {
 
 updateElectronApp();
 
+const IS_DEV = process.env.NODE_ENV === "development";
+const HAS_DEV_URL = !!MAIN_WINDOW_VITE_DEV_SERVER_URL;
+
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1040,
-    height: 800,
+    width: IS_DEV ? 1500 : 1040,
+    height: IS_DEV ? 1200 : 800,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },

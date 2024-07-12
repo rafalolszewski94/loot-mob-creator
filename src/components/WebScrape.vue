@@ -7,6 +7,7 @@ import {
 } from "@heroicons/vue/24/outline";
 import AppButton from "./AppButton.vue";
 import type { Item } from "../../types.d.ts";
+import HighlightedCode from "./HighlightedCode.vue";
 
 const { text, copy, copied, isSupported } = useClipboard();
 
@@ -195,10 +196,12 @@ const copyCode = () => {
         <ClipboardDocumentIcon class="size-5" v-if="!copied" />
         <CheckCircleIcon class="size-5 text-green-400" v-if="copied" />
       </button>
-      <pre
-        ref="test"
-        class="!mt-10 bg-zinc-600/20 border border-zinc-300/20 rounded-xl p-10 break-all"
-      ></pre>
+
+      <HighlightedCode
+        v-if="result"
+        :code="result"
+        class="!mt-10 border border-zinc-300/20 rounded-xl overflow-hidden"
+      />
     </div>
   </div>
 </template>

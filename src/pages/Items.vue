@@ -2,6 +2,7 @@
 import AppButton from "../components/AppButton.vue";
 import { onMounted, onUpdated, ref } from "vue";
 import type { Item } from "../../types.d.ts";
+import SearchItem from "../components/SearchItem.vue";
 
 const items = ref<Item[]>([]);
 const newItem = ref<Item>({
@@ -63,6 +64,11 @@ const saveItem = async () => {
   });
   await save(items.value);
 };
+
+const onItemSelected = (item: Item) => {
+  newItem.value.id = item.id;
+  newItem.value.name = item.name;
+};
 </script>
 
 <template>
@@ -74,7 +80,88 @@ const saveItem = async () => {
         <div
           class="flex-auto prose prose-invert !max-w-5xl [html_:where(&amp;>*)]:mx-auto [html_:where(&amp;>*)]:max-w-2xl [html_:where(&amp;>*)]:lg:mx-[calc(50%-min(50%,theme(maxWidth.lg)))] [html_:where(&amp;>*)]:lg:max-w-3xl"
         >
+          <div class="absolute inset-0 -z-10 mx-0 max-w-none overflow-hidden">
+            <div
+              class="absolute left-1/2 top-0 ml-[-38rem] h-[25rem] w-[81.25rem] [mask-image:linear-gradient(white,transparent)]"
+            >
+              <div
+                class="absolute inset-0 bg-gradient-to-r [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] from-green-500/30 to-indigo-600/30 opacity-100"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="absolute inset-x-0 inset-y-[-40%] h-[200%] w-full skew-y-[-8deg] mix-blend-overlay fill-white/5 stroke-white/5"
+                >
+                  <defs>
+                    <pattern
+                      id=":S1:"
+                      width="72"
+                      height="56"
+                      patternUnits="userSpaceOnUse"
+                      x="-12"
+                      y="4"
+                    >
+                      <path d="M.5 56V.5H72" fill="none"></path>
+                    </pattern>
+                  </defs>
+                  <rect
+                    width="100%"
+                    height="100%"
+                    stroke-width="0"
+                    fill="url(#:S1:)"
+                  ></rect>
+                  <svg x="-12" y="4" class="overflow-visible">
+                    <rect
+                      stroke-width="0"
+                      width="73"
+                      height="57"
+                      x="288"
+                      y="168"
+                    ></rect>
+                    <rect
+                      stroke-width="0"
+                      width="73"
+                      height="57"
+                      x="144"
+                      y="56"
+                    ></rect>
+                    <rect
+                      stroke-width="0"
+                      width="73"
+                      height="57"
+                      x="504"
+                      y="168"
+                    ></rect>
+                    <rect
+                      stroke-width="0"
+                      width="73"
+                      height="57"
+                      x="720"
+                      y="336"
+                    ></rect>
+                  </svg>
+                </svg>
+              </div>
+              <svg
+                viewBox="0 0 1113 440"
+                aria-hidden="true"
+                class="absolute left-1/2 top-0 ml-[-19rem] w-[69.5625rem] fill-white blur-[26px] hidden"
+              >
+                <path
+                  d="M.016 439.5s-9.5-300 434-300S882.516 20 882.516 20V0h230.004v439.5H.016Z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
           <h1>Item mapping</h1>
+
+          <div>
+            <SearchItem @select-item="onItemSelected" />
+          </div>
+
+          <div class="my-1">
+            <span class="text-sm text-gray-500">Or add one manually</span>
+          </div>
 
           <div class="flex flex-col items-center">
             <div class="flex gap-4 flex-1 w-full">
